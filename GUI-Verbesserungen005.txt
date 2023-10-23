@@ -1,0 +1,80 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Main {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Protein Calculator");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 250);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(5, 2);
+
+        JLabel weightLabel = new JLabel("Körpergewicht (kg):");
+        JTextField weightField = new JTextField();
+        JLabel heightLabel = new JLabel("Körpergröße (cm):");
+        JTextField heightField = new JTextField();
+        JLabel genderLabel = new JLabel("Geschlecht:");
+        JTextField genderField = new JTextField();
+
+        JButton calculateButton = new JButton("Berechnen");
+        JButton clearButton = new JButton("Löschen");
+        JLabel resultLabel = new JLabel("");
+
+        // Validierungsmeldungen
+        JLabel validationLabel = new JLabel("");
+        validationLabel.setForeground(Color.RED);
+
+        calculateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double weight = Double.parseDouble(weightField.getText());
+                    double height = Double.parseDouble(heightField.getText());
+
+                    if (weight <= 0 || height <= 0) {
+                        validationLabel.setText("Gewicht und Größe müssen positiv sein.");
+                        resultLabel.setText(""); // Zurücksetzen des vorherigen Ergebnisses
+                        return; // Die Berechnung wird nicht durchgeführt
+                    }
+
+                    String gender = genderField.getText();
+
+                    // Verbindung zum Rust-Backend herstellen
+                    // ...
+
+                    validationLabel.setText(""); // Löschen der Validierungsmeldung
+                } catch (NumberFormatException ex) {
+                    validationLabel.setText("Ungültige Eingabe. Bitte geben Sie positive Zahlen ein.");
+                }
+            }
+        });
+
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                weightField.setText("");
+                heightField.setText("");
+                genderField.setText("");
+                resultLabel.setText("");
+                validationLabel.setText("");
+            }
+        });
+
+        panel.add(weightLabel);
+        panel.add(weightField);
+        panel.add(heightLabel);
+        panel.add(heightField);
+        panel.add(genderLabel);
+        panel.add(genderField);
+        panel.add(calculateButton);
+        panel.add(clearButton);
+        panel.add(validationLabel);
+        panel.add(resultLabel);
+
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+}
