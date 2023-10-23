@@ -1,0 +1,20 @@
+Verwendung von Java: Verwenden Sie die Java-Plattform, um sicherzustellen, dass Ihre Anwendung auf verschiedenen Betriebssystemen funktioniert, ohne plattformspezifischen Code schreiben zu müssen.
+
+Vermeidung von plattformspezifischen Abhängigkeiten: Achten Sie darauf, keine plattformspezifischen Bibliotheken oder Funktionen zu verwenden, die auf bestimmten Betriebssystemen nicht verfügbar sind.
+
+Sorgfältige Verwendung von Dateipfaden: Verwenden Sie die File.separator-Konstante anstelle von harten Codierungen von Dateipfaden, um sicherzustellen, dass die Pfade auf verschiedenen Betriebssystemen korrekt sind.
+
+
+import java.io.File;
+
+public class FilePathExample {
+    public static void main(String[] args) {
+        String directory = "data" + File.separator + "files";
+        String filename = "example.txt";
+        String fullPath = directory + File.separator + filename;
+
+        System.out.println("Dateipfad: " + fullPath);
+    }
+}
+
+//java.nio für Dateioperationen.

@@ -1,0 +1,46 @@
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+
+public class ProteinCalculatorTest {
+    @Test
+    public void testProteinCalculation() {
+        double weight = 70.0;
+        double height = 175.0;
+        String gender = "male";
+
+        double expectedProtein = ProteinCalculator.calculateProtein(weight, height, gender);
+        double delta = 0.001;
+
+        assertEquals(ProteinCalculator.calculateProtein(weight, height, gender), expectedProtein, delta);
+    }
+}
+
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+
+public class IntegrationTest {
+    @Test
+    public void testCommunicationWithRustBackend() {
+        // Hier können Sie Integrationstests für die Kommunikation mit dem Rust-Backend durchführen
+        // ...
+        // Stellen Sie sicher, dass die Kommunikation ordnungsgemäß funktioniert
+    }
+}
+
+public class MainTest {
+    @Test
+    public void testMain() {
+        // Hier können Sie Einheitstests für die GUI-Komponenten hinzufügen
+        // ...
+        // Stellen Sie sicher, dass die GUI-Komponenten korrekt initialisiert und reagieren
+    }
+}
+
+public class ValidatorTest {
+    @Test
+    public void testValidation() {
+        // Hier können Sie Einheitstests für die Eingabevalidierung hinzufügen
+        // ...
+        // Stellen Sie sicher, dass die Validierung korrekt funktioniert
+    }
+}

@@ -1,0 +1,123 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+public class Main {
+    public static void main(String[] args) {
+        // Erstellen eines Swing-Fensters für die Anwendung
+        JFrame frame = new JFrame("Protein Calculator");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 250);
+
+        // Erstellen eines Panels zur Anordnung der GUI-Komponenten
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(5, 2);
+
+        // Locale auswählen (Deutsch oder Englisch)
+        Locale locale = Locale.getDefault(); // Standardmäßig wird das Betriebssystem verwendet
+        ResourceBundle messages = ResourceBundle.getBundle("Messages", locale);
+
+        // Erstellen von GUI-Komponenten (Labels, Textfelder, Buttons, usw.) mit internationalisierten Texten
+        JLabel weightLabel = new JLabel(messages.getString("weightLabel"));
+        JTextField weightField = new JTextField();
+        JLabel heightLabel = new JLabel(messages.getString("heightLabel"));
+        JTextField heightField = new JTextField();
+        JLabel genderLabel = new JLabel(messages.getString("genderLabel"));
+        JTextField genderField = new JTextField();
+
+        JButton calculateButton = new JButton(messages.getString("calculateButton"));
+        JButton clearButton = new JButton(messages.getString("clearButton"));
+        JLabel resultLabel = new JLabel("");
+
+        // Validierungsmeldungen
+        JLabel validationLabel = new JLabel("");
+        validationLabel.setForeground(Color.RED);
+
+        // ActionListener für den "Berechnen"-Button
+        calculateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double weight = Double.parseDouble(weightField.getText());
+                    double height = Double.parseDouble(heightField.getText());
+
+                    if (weight <= 0 || height <= 0) {
+                        // Validierung: Gewicht und Größe müssen positiv sein
+                        validationLabel.setText(messages.getString("validationMessagePositive"));
+                        resultLabel.setText("");
+                        return; // Die Berechnung wird nicht durchgeführt
+                    }
+
+                    String gender = genderField.getText();
+
+                    // Verbindung zum Rust-Backend herstellen
+                    // ...
+
+                    validationLabel.setText("");
+                } catch (NumberFormatException ex) {
+                    // Validierung: Ungültige Eingabe
+                    validationLabel.setText(messages.getString("validationMessageInvalid"));
+                }
+            }
+        });
+
+        // ActionListener für den "Löschen"-Button
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                weightField.setText("");
+                heightField.setText("");
+                genderField.setText("");
+                resultLabel.setText("");
+                validationLabel.setText("");
+            }
+        });
+
+        // Hinzufügen der GUI-Komponenten zum Panel
+        panel.add(weightLabel);
+        panel.add(weightField);
+        panel.add(heightLabel);
+        panel.add(heightField);
+        panel.add(genderLabel);
+        panel.add(genderField);
+        panel.add(calculateButton);
+        panel.add(clearButton);
+        panel.add(validationLabel);
+        panel.add(resultLabel);
+
+        // Hinzufügen des Panels zum JFrame
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+}
+
+# Proteinberechnungsanwendung
+
+Dies ist eine Anwendung, die mithilfe von Körpergewicht, Körpergröße und Geschlecht die benötigte Eiweißmenge pro Tag berechnet. Sie unterstützt die Anzeigesprachen Deutsch und Englisch.
+
+## Verwendung
+
+1. Führen Sie die Anwendung aus.
+2. Geben Sie Ihr Körpergewicht, Ihre Körpergröße und Ihr Geschlecht in die entsprechenden Felder ein.
+3. Klicken Sie auf den "Berechnen"-Button, um die benötigte Eiweißmenge pro Tag zu berechnen.
+4. Das Ergebnis wird unterhalb des Buttons angezeigt.
+
+## Anzeigesprache ändern
+
+Die Anwendung verwendet die Anzeigesprache basierend auf den Systemeinstellungen. Sie können die Sprache auf Deutsch oder Englisch ändern, indem Sie die Spracheinstellungen Ihres Betriebssystems anpassen.
+
+## Fehlerbehandlung
+
+- Wenn Sie ungültige Eingaben tätigen (z. B. negatives Gewicht oder Größe), werden entsprechende Fehlermeldungen angezeigt.
+- Bei Kommunikationsfehlern mit dem Backend wird eine entsprechende Fehlermeldung angezeigt.
+
+## Autor
+
+Masha Katharina
+
+## Unterstützung und Kontakt
+
+gibbet.net
