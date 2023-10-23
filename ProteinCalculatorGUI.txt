@@ -1,0 +1,67 @@
+// Main.java
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.net.Socket;
+
+public class Main {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Protein Calculator");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(4, 2);
+
+        JLabel weightLabel = new JLabel("Körpergewicht (kg):");
+        JTextField weightField = new JTextField();
+        JLabel heightLabel = new JLabel("Körpergröße (cm):");
+        JTextField heightField = new JTextField();
+        JLabel genderLabel = new JLabel("Geschlecht:");
+        JTextField genderField = new JTextField();
+
+        JButton calculateButton = new JButton("Berechnen");
+        JLabel resultLabel = new JLabel("");
+
+        calculateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double weight = Double.parseDouble(weightField.getText());
+                    double height = Double.parseDouble(heightField.getText());
+                    String gender = genderField.getText();
+
+                    // Verbindung zum Rust-Backend herstellen
+                    try (Socket socket = new Socket("localhost", 12345);
+                         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                         ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
+
+                        UserInput userInput = new UserInput(weight, height, gender);
+                        out.writeObject(userInput);
+
+                        ProteinRequirements result = (ProteinRequirements) in.readObject();
+                        resultLabel.setText("Benötigte Eiweißmenge: " + result.result + " g pro Tag");
+                    } catch (IOException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
+                } catch (NumberFormatException ex) {
+                    resultLabel.setText("Ungültige Eingabe");
+                }
+            }
+        });
+
+        panel.add(weightLabel);
+        panel.add(weightField);
+        panel.add(heightLabel);
+        panel.add(heightField);
+        panel.add(genderLabel);
+        panel.add(genderField);
+        panel.add(calculateButton);
+        panel.add(resultLabel);
+
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+}

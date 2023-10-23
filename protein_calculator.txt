@@ -1,0 +1,21 @@
+// backend.rs
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize)]
+struct UserInput {
+    weight: f64,
+    height: f64,
+    gender: String,
+}
+
+#[derive(Serialize, Deserialize)]
+struct ProteinRequirements {
+    result: f64,
+}
+
+fn calculate_protein_requirement(input: UserInput) -> ProteinRequirements {
+    // Berechnungen basierend auf Körpergewicht, Körpergröße und Geschlecht 
+    // Ergebnis zurück geben
+    let result = /* Ihre Berechnung */;
+    ProteinRequirements { result }
+}
