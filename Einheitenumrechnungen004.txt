@@ -1,0 +1,61 @@
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.JComboBox;
+
+// ...
+
+JComboBox<String> weightUnitComboBox = new JComboBox<>(new String[]{"Kilogramm", "Pfund"});
+JComboBox<String> heightUnitComboBox = new JComboBox<>(new String[]{"Zentimeter", "Fuß"});
+
+weightUnitComboBox.setSelectedIndex(0); // Standardgewichtseinheit auf Kilogramm
+heightUnitComboBox.setSelectedIndex(0); // Standardgrößeinheit auf Zentimeter
+
+weightUnitComboBox.addItemListener(new ItemListener() {
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        // Hier können Sie die Konvertierung von Pfund zu Kilogramm implementieren, wenn die Einheit geändert wird
+        // Passen Sie auch die Berechnungen an
+    }
+});
+
+heightUnitComboBox.addItemListener(new ItemListener() {
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        // Hier können Sie die Konvertierung von Fuß zu Zentimeter implementieren, wenn die Einheit geändert wird
+        // Passen Sie auch die Berechnungen an
+    }
+});
+
+// ...
+
+calculateButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            double weight = Double.parseDouble(weightField.getText());
+            double height = Double.parseDouble(heightField.getText());
+
+            if (weightUnitComboBox.getSelectedIndex() == 1) {
+                // Konvertieren Sie das Gewicht von Pfund zu Kilogramm
+                weight = weight * 0.453592;
+            }
+
+            if (heightUnitComboBox.getSelectedIndex() == 1) {
+                // Konvertieren Sie die Größe von Fuß zu Zentimeter
+                height = height * 30.48;
+            }
+
+            if (weight <= 0 || height <= 0) {
+                resultLabel.setText("Gewicht und Größe müssen positiv sein.");
+                return; // Die Berechnung wird nicht durchgeführt
+            }
+
+            String gender = genderField.getText();
+
+            // Verbindung zum Rust-Backend herstellen
+            // ...
+        } catch (NumberFormatException ex) {
+            resultLabel.setText("Ungültige Eingabe. Bitte geben Sie positive Zahlen ein.");
+        }
+    }
+});
