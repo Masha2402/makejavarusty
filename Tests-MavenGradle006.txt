@@ -1,0 +1,30 @@
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+
+public class ProteinCalculatorTest {
+    @Test
+    public void testProteinCalculation() {
+        // Hier testen wir die Berechnungsfunktion mit Beispieldaten
+        double weight = 70.0;
+        double height = 175.0;
+        String gender = "male";
+
+        double expectedProtein = ProteinCalculator.calculateProtein(weight, height, gender);
+        double delta = 0.001; // Delta für Gleitkommavergleiche
+
+        // Erwartete Ergebnisse basierend auf Ihrer Implementierung
+        assertEquals(ProteinCalculator.calculateProtein(weight, height, gender), expectedProtein, delta);
+    }
+}
+
+
+import org.junit.Test;
+
+public class IntegrationTest {
+    @Test
+    public void testCommunicationWithRustBackend() {
+        // Hier können Sie Tests für die Kommunikation mit dem Rust-Backend durchführen
+        // Stellen Sie sicher, dass die Verbindung ordnungsgemäß hergestellt wird und die erwarteten Daten übertragen werden.
+        // Mocking oder Stubbing von Rust-Backend-Interaktionen kann erforderlich sein.
+    }
+}
