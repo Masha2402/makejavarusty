@@ -1,0 +1,54 @@
+use std::io;
+
+fn calculate_protein(weight: f64, gender: &str, height: f64) -> f64 {
+    let mut protein;
+
+    // Grundbedarf berechnen
+    if gender == "male" {
+        protein = weight * 2.2;
+    } else {
+        protein = weight * 1.8;
+    }
+
+    // Zusätzliche Proteinmenge basierend auf Größe hinzufügen
+    if height > 180.0 {
+        protein += weight * 1.2;
+    }
+
+    return protein;
+}
+
+fn get_user_input(prompt: &str) -> f64 {
+    loop {
+        println!("{}", prompt);
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).expect("Fehler beim Einlesen");
+        match input.trim().parse() {
+            Ok(num) => return num,
+            Err(_) => println!("Ungültige Eingabe. Bitte geben Sie eine positive Zahl ein."),
+        }
+    }
+}
+
+fn main() {
+    println!("Rust Protein Calculator");
+
+    loop {
+        let weight = get_user_input("Bitte geben Sie das Körpergewicht (kg) ein:");
+        let mut gender = String::new();
+        loop {
+            println!("Bitte geben Sie das Geschlecht ein (male/female):");
+            io::stdin().read_line(&mut gender).expect("Fehler beim Einlesen des Geschlechts");
+            if gender.trim() == "male" || gender.trim() == "female" {
+                break;
+            } else {
+                println!("Ungültige Eingabe. Bitte geben Sie 'male' oder 'female' ein.");
+            }
+        }
+
+        let height = get_user_input("Bitte geben Sie die Körpergröße (cm) ein:");
+
+        let protein = calculate_protein(weight, gender.trim(), height);
+        println!("Die benötigte Eiweißmenge pro Tag beträgt: {} g", protein);
+    }
+}

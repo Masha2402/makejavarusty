@@ -1,0 +1,96 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+public class ProteinCalculator {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Protein Calculator");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 250);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(5, 2);
+
+        Locale locale = Locale.getDefault();
+        ResourceBundle messages = ResourceBundle.getBundle("Messages", locale);
+
+        JLabel weightLabel = new JLabel(messages.getString("weightLabel"));
+        JTextField weightField = new JTextField();
+        JLabel heightLabel = new JLabel(messages.getString("heightLabel"));
+        JTextField heightField = new JTextField();
+        JLabel genderLabel = new JLabel(messages.getString("genderLabel"));
+        JTextField genderField = new JTextField();
+
+        JButton calculateButton = new JButton(messages.getString("calculateButton"));
+        JButton clearButton = new JButton(messages.getString("clearButton"));
+        JLabel resultLabel = new JLabel("");
+
+        JLabel validationLabel = new JLabel("");
+        validationLabel.setForeground(Color.RED);
+
+        calculateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double weight = Double.parseDouble(weightField.getText());
+
+                    if (weight <= 0) {
+                        validationLabel.setText(messages.getString("validationMessagePositive"));
+                        resultLabel.setText("");
+                        return;
+                    }
+
+                    String gender = genderField.getText();
+                    double protein = calculateProtein(weight, gender);
+                    resultLabel.setText(messages.getString("resultMessage") + " " + protein + " g");
+                    validationLabel.setText("");
+                } catch (NumberFormatException ex) {
+                    validationLabel.setText(messages.getString("validationMessageInvalid"));
+                }
+            }
+        });
+
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                weightField.setText("");
+                genderField.setText("");
+                resultLabel.setText("");
+                validationLabel.setText("");
+            }
+        });
+
+        panel.add(weightLabel);
+        panel add(weightField);
+        panel.add(genderLabel);
+        panel.add(genderField);
+        panel.add(calculateButton);
+        panel.add(clearButton);
+        panel.add(validationLabel);
+        panel.add(resultLabel);
+
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+
+    public static double calculateProtein(double weight, String gender) {
+        double protein;
+
+        // Grundbedarf berechnen
+        if (gender.equals("male")) {
+            protein = weight * 2.2;
+        } else {
+            protein = weight * 1.8;
+        }
+
+        // Zusätzliche Proteinmenge basierend auf Größe hinzufügen
+        if (weight > 180) {
+            protein += weight * 1.2;
+        }
+
+        return protein;
+    }
+}
